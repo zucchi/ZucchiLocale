@@ -1,0 +1,33 @@
+{
+    "name": "zucchi/locale",
+    "description": "Module to allow selection and management of Locales to be used with Zucchi ZF2 Modules",
+    "type": "library",
+    "keywords": [
+        "locale",
+        "library",
+        "zf2"
+    ],
+    "homepage": "https://github.com/zucchi/ZucchiLocale",
+    "authors" : [{
+        "name": "Matt Cockayne",
+        "email" : "matt@zucchi.co.uk",
+        "homepage" : "http://devincharge.com/"
+    }],
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=5.4.1",
+        "ext-intl" : ">=1.1.0",
+        "zendframework/zendframework": "dev-master",
+        "zucchi/zucchi" : "dev-master",
+        "zucchi/admin" : "dev-master",
+        
+    },
+    "autoload": {
+        "psr-0": {
+            "ZucchiLocale": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}

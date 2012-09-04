@@ -1,0 +1,23 @@
+<?php
+/**
+ * Zucchi Locale Configuration
+ *
+ * copy this to ./config/autoload/zucchilocale.global.php and modify as required
+ */
+return array(
+    'ZucchiLocale' => array(
+        'locale' => array(
+            'parsers' => array(
+                'ZucchiLocale\Parser\Query',
+                'ZucchiLocale\Parser\Route',
+                'ZucchiLocale\Parser\Host',
+                'ZucchiLocale\Parser\Cookie',
+                'ZucchiLocale\Parser\Session',
+                'ZucchiLocale\Parser\Header',
+            ),
+            'allowed' => array(
+                'en_GB'
+            ),
+        ),
+    ),
+);
