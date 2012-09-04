@@ -7,3 +7,9 @@ _Installation_
 From the root of your ZF2 Skeleton Application run
 
     ./composer.phar require zucchi/locale
+    
+_Introduction_
+
+This module is designed to allow detection and definition of locales to be used 
+with a Zend Framework 2 Application. The Module also comes with a settings 
+administration for use with ZucchiAdmin  
