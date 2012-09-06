@@ -36,8 +36,9 @@ class Module implements
      */
     public function init(ModuleManager $moduleManager)
     {
+        $events = $moduleManager->getEventManager();
         // attach listeners for locale
-        $events = StaticEventManager::getInstance();
+//         $events = StaticEventManager::getInstance();
         $listener = new LocaleListener();
         $listener->attach($events);
     }

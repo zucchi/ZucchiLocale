@@ -10,7 +10,8 @@ namespace ZucchiLocale\Event;
 
 use Zend\EventManager\EventCollection;
 use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\SharedEventManagerInterface;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
 use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
 use Zucchi\Debug\Debug;
@@ -23,7 +24,7 @@ use Locale;
  * @package ZucchiLocale
  * @subpackage Event
  */
-class LocaleListener // implements ListenerAggregateInterface
+class LocaleListener  implements ListenerAggregateInterface
 {
     /**
      * the found locale
@@ -53,24 +54,23 @@ class LocaleListener // implements ListenerAggregateInterface
      * Attach listeners to events
      * @param SharedEventManagerInterface $events
      */
-    public function attach(SharedEventManagerInterface $events)
+    public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach('Zend\Mvc\Application', MvcEvent::EVENT_BOOTSTRAP, array($this, 'detect'), 1000);
-        $this->listeners[] = $events->attach('Zend\Mvc\Application', MvcEvent::EVENT_ROUTE, array($this, 'detect'), -1);
-        $this->listeners[] = $events->attach('Zend\Mvc\Application', MvcEvent::EVENT_FINISH, array($this, 'store'), -1);
+        $this->listeners = array(
+            $events->attach(MvcEvent::EVENT_BOOTSTRAP, array($this, 'detect'), 1000),
+            $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'detect'), -1),
+            $events->attach(MvcEvent::EVENT_FINISH, array($this, 'store'), -1),
+        );
     }
     
     /**
      * remove listeners from events
-     * @param SharedEventManagerInterface $events
+     * @param EventManagerInterface $events
      */
-    public function detach(SharedEventManagerInterface $events)
+    public function detach(EventManagerInterface $events)
     {
-        foreach ($this->listeners as $index => $listener) {
-            if ($events->detach($listener)) {
-                unset($this->listeners[$index]);
-            }
-        }
+        array_walk($this->listeners, array($events,'detach'));
+        $this->listeners = array();
     }
     
     /**
