@@ -11,53 +11,22 @@ return array(
             'zucchi-locale-admin' => 'ZucchiLocale\Controller\AdminController',
         ),
     ),
-    'service_manager' => array(
-        'factories' => array(
-            'ZucchiLocale\Handler\Query' => function($sm) {
-                $handler = new ZucchiLocale\Handler\Query();
-                $config = $sm->get('config')['ZucchiLocale']['locale'];
-                $handler->setConfig($config);
-                return $handler;
-            },
-            'ZucchiLocale\Handler\Route' => function($sm) {
-                $handler = new ZucchiLocale\Handler\Route();
-                $config = $sm->get('config')['ZucchiLocale']['locale'];
-                $handler->setConfig($config);
-                return $handler;
-            },
-            'ZucchiLocale\Handler\Host' => function($sm) {
-                $handler = new ZucchiLocale\Handler\Host();
-                $config = $sm->get('config')['ZucchiLocale']['locale'];
-                $handler->setConfig($config);
-                return $handler;
-            },
-            'ZucchiLocale\Handler\Cookie' => function($sm) {
-                $handler = new ZucchiLocale\Handler\Cookie();
-                $config = $sm->get('config')['ZucchiLocale']['locale'];
-                $handler->setConfig($config);
-                return $handler;
-            },
-            'ZucchiLocale\Handler\Session' => function($sm) {
-                $handler = new ZucchiLocale\Handler\Session();
-                $config = $sm->get('config')['ZucchiLocale']['locale'];
-                $handler->setConfig($config);
-                return $handler;
-            },
-            'ZucchiLocale\Handler\Header' => function($sm) {
-                $handler = new ZucchiLocale\Handler\Header();
-                $config = $sm->get('config')['ZucchiLocale']['locale'];
-                $handler->setConfig($config);
-                return $handler;
-            },
+    'view_helpers' => array(
+        'invokables' => array(
+            'tranzlate' => 'ZucchiLocale\View\Helper\Tranzlate',
         ),
     ),
     'navigation' => array(
         'ZucchiAdmin' => array(
-            'locale' => array(
-                'label' => _('Locale'),
-                'route' => 'ZucchiAdmin/ZucchiLocale',
-                'action' => 'settings',
-            ),
+            'settings' => array(
+                'pages' => array(
+                    'locale' => array(
+                        'label' => _('Locale'),
+                        'route' => 'ZucchiAdmin/ZucchiLocale',
+                        'action' => 'settings',
+                    ),
+                )
+            )
         )
     ),
     // default route 
@@ -70,6 +39,7 @@ return array(
                         'options' => array(
                             'route' => '/locale[/:action]',
                             'defaults' => array(
+                                'module' => 'ZucchiLocale',
                                 'controller' => 'zucchi-locale-admin',
                                 'action' => null,
                             ),
@@ -94,6 +64,53 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             'ZucchiLocale' => __DIR__ . '/../view',
+        ),
+    ),
+    'ZucchiSecurity' => array(
+        'permissions' => array(
+            'resources' => array(
+                'route' =>array(
+                    'ZucchiAdmin' => array(
+                        'children' => array('ZucchiLocale'),
+                    )
+                ),
+            ),
+        ),
+    ),
+    'ZucchiSecurity' => array(
+        'permissions' => array(
+            'map' => array(
+                'ZucchiLocale' => array(
+                    'settings' => 'update',
+                ),
+            ),
+            'roles' => array(
+                'locale-manager' => array(
+                    'label' => 'Locale Manager (ability to update locale settings)',
+                ),
+            ),
+            'resources' => array(
+                'route' =>array(
+                    'ZucchiAdmin' => array(
+                        'children' => array('ZucchiLocale'),
+                    ),
+                ),
+                'module' => array(
+                    'ZucchiLocale',
+                )
+            ),
+            'rules' => array(
+                array(
+                    'role' => 'locale-manager',
+                    'resource' => array(
+                        'route:ZucchiAdmin/ZucchiLocale',
+                        'module:ZucchiLocale',
+                    ),
+                    'privileges' => array(
+                        'view','update',
+                    ),
+                ),
+            ),
         ),
     ),
 );
