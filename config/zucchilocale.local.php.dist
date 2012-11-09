@@ -7,13 +7,13 @@
 return array(
     'ZucchiLocale' => array(
         'locale' => array(
-            'parsers' => array(
-                'ZucchiLocale\Parser\Query',
-                'ZucchiLocale\Parser\Route',
-                'ZucchiLocale\Parser\Host',
-                'ZucchiLocale\Parser\Cookie',
-                'ZucchiLocale\Parser\Session',
-                'ZucchiLocale\Parser\Header',
+            'handlers' => array(
+                'ZucchiLocale\Handlers\Query',
+                'ZucchiLocale\Handlers\Route',
+                'ZucchiLocale\Handlers\Host',
+                'ZucchiLocale\Handlers\Cookie',
+                'ZucchiLocale\Handlers\Session',
+                'ZucchiLocale\Handlers\Header',
             ),
             'allowed' => array(
                 'en_GB'
